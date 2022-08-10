@@ -16,14 +16,17 @@ public class JpaMain {
         tx.begin();
 
         try{
-//            Member member = em.find(Member.class, 1L);
-//            member.setName("HelloJPA");
-            List<Member> members = em.createQuery("select m from Member m", Member.class)
-                    .getResultList();
+            Member member = new Member(); // 비영속 -> 생성만 함
+            member.setId(101L);
+            member.setName("TamTam");
 
-            for (Member member : members) {
-                System.out.println("member.getName() = " + member.getName());
-            }
+            em.persist(member); // 여기서부터 영속 상태가 된다. -> persist로 넣었기 때문에
+            // 여기서 member가 DB에 저장되지 않는다.
+
+            Member findMember = em.find(Member.class, 101L);
+
+            System.out.println("findMember.getId() = " + findMember.getId());
+            System.out.println("findMember.getName() = " + findMember.getName());
 
             tx.commit();
         }catch (Exception e){
