@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Entity
+@Entity
 public class Team {
 
     @Id
@@ -22,7 +22,9 @@ public class Team {
         this.members = members;
     }
 
-    @OneToMany(mappedBy = "team")
+    //@OneToMany(mappedBy = "team") // 다대일
+    @OneToMany // 일대다
+    @JoinColumn(name = "team_id")
     private List<Member> members = new ArrayList<>();
 
     public Long getId() {

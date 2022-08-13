@@ -2,7 +2,7 @@ package hellojpa.mapping;
 
 import javax.persistence.*;
 
-//@Entity
+@Entity
 public class Member {
 
     @Id
@@ -12,9 +12,9 @@ public class Member {
 
     private String username;
 
-    @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
+//    @ManyToOne
+//    @JoinColumn(name = "team_id")
+//    private Team team;
 
     public Long getId() {
         return id;
@@ -32,13 +32,13 @@ public class Member {
         this.username = username;
     }
 
-    public Team getTeam() {
-        return team;
-    }
-
-    //연관 관계 편의 메서드
-    public void changeTeam(Team team) {
-        this.team = team;
-        team.getMembers().add(this); // this : member
-    }
+//    public Team getTeam() {
+//        return team;
+//    }
+//
+//    //연관 관계 편의 메서드
+//    public void changeTeam(Team team) {
+//        this.team = team;
+//        team.getMembers().add(this); // this : member
+//    }
 }
