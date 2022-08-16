@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //@Entity
-//@Table(name = "ORDERS")
+@Table(name = "ORDERS")
 public class Order {
 
     @Id
@@ -17,12 +17,16 @@ public class Order {
 //    @Column(name = "member_id")
 //    private Long memberId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "delivery_id")
+    private Delivery delivery;
 
     private LocalDateTime orderDate;
 

@@ -9,7 +9,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.List;
 
-public class JpaMain {
+public class JpaMain_NPlus1 {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
@@ -32,14 +32,12 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            Member findMember = em.find(Member.class, member.getId());
-//            Member findMember = em.getReference(Member.class, member.getId()); // 값이 실제로 사용되는 시점에 쿼리를 보낸다.
-            System.out.println("==============================");
-//            printMemberAndTeam(findMember);
-            System.out.println("findMember = " + findMember.getUsername());
-            System.out.println("findMember.getTeam().getClass() = " + findMember.getTeam().getClass());
-            System.out.println("==============================");
-            findMember.getTeam().getName();
+            //Member findMember = em.find(Member.class, member.getId());
+
+            System.out.println("===============================");
+            List<Member> members = em.createQuery("select m from Member m", Member.class)
+                    .getResultList();
+            System.out.println("===============================");
 
             tx.commit();
         }catch (Exception e){
@@ -50,11 +48,4 @@ public class JpaMain {
         emf.close();
     }
 
-    private static void printMemberAndTeam(Member member){
-        String username = member.getUsername();
-        System.out.println("username = " + username);
-
-        Team team = member.getTeam();
-        System.out.println("team = " + team.getName());
-    }
 }

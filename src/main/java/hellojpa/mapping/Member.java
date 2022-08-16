@@ -1,6 +1,8 @@
 package hellojpa.mapping;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Member {
@@ -12,13 +14,16 @@ public class Member {
 
     private String username;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "locker_id")
     private Locker locker;
 
-//    @ManyToOne
-//    @JoinColumn(name = "team_id")
-//    private Team team;
+    @OneToMany(mappedBy = "member")
+    private List<MemberProduct> memberProducts = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     public Long getId() {
         return id;
@@ -36,11 +41,15 @@ public class Member {
         this.username = username;
     }
 
-//    public Team getTeam() {
-//        return team;
-//    }
-//
-//    //연관 관계 편의 메서드
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    //    //연관 관계 편의 메서드
 //    public void changeTeam(Team team) {
 //        this.team = team;
 //        team.getMembers().add(this); // this : member
