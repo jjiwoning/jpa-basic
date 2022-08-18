@@ -18,15 +18,28 @@ public class JpaMain_JPQL {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
-        try{
+        try {
             Member_J member = new Member_J();
             member.setUsername("userA");
             em.persist(member);
 
+            em.flush();
+            em.clear();
+
+            List<Member_J> result = em.createQuery("select m from Member_J m", Member_J.class)
+                    .getResultList();
+
+            int n = 0;
+
+            em.createQuery("select m from Member_J m order by m.age desc ", Member_J.class)
+                    .setFirstResult(n)
+                    .setMaxResults(n + 20)
+                    .getResultList();
+
             tx.commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             tx.rollback();
-        }finally {
+        } finally {
             em.close();
         }
         emf.close();
